@@ -4,7 +4,7 @@
 import numpy as np
 import cv2 as cv
 img = cv.imread(r'C:\Users\guanlibu\Desktop\her\120.jpg',1)
-#cv.imshow('123',img)
+
 #可以通过行，列访问像素值，对于BGR图像，它返回一个由蓝色、绿色和红色值组成的数组，对于灰度图像，只返回相应的灰度
 #返回值是像素点【100,100】处的蓝绿红三元素的值【232  144  60】
 px =img[100,100]
@@ -32,5 +32,36 @@ print(img.shape)
 print(img.size)
 #图像数据类型通过img.dtype获取
 print(img.dtype)
-#cv.waitKey(-1)
+
+#图像感兴趣区域ROI
+#可以提高准确性和性能，可以将球的复制到其他区域
+ball = img[280:340,330:390]#将一个区域赋值给ball
+img [273:333,100:160] = ball#将ball赋值给另一个区域，区域大小一致
+
+#拆分和合并图像通道
+b,g,r = cv.split(img)#拆分通道是一个耗时的操作，一般时候需要使用numpy索引
+img = cv.merge((b,g,r))
+b = img[:,:,0]
+img[:,:,2]=0
+r = img[:,:,2]
+print(r)
+
+#为图像设置边框（填充）
+'''
+使用cv.copyMakeBorder()创建图像周围的边框，在卷积运算和零填充方面应用较多
+此函数采用的参数如下
+src 输入图像
+top,bottom,left,right 边界宽度（以相应方向上的像素为单位）
+borderType 定义要添加哪种边框的标志。他可以是一下类型：
+    cv.BORDER_CONSTANT 添加恒定的彩色边框。该值作为下一个参数给出
+    cv.BORDER_REFLECT 边框将是边框元素的镜像（fedcba/abcdef）
+    cv.BORDER_REFLECT_101或cv.BORDER_DEFAULT 与上述相同,略有变化
+    cv.BORDER_REPLICATE 最后一个元素被复制（abcdef/fffff）
+    value 边框的颜色，如果边框类型为cv.BORDER_CONSTANT时使用
+    
+'''
+RED =[0,0,255]
+constant = cv.copyMakeBorder(img,10,10,10,10,cv.BORDER_CONSTANT,value =RED)
+cv.imshow('123',constant)
+cv.waitKey(-1)
 #
