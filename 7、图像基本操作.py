@@ -1,4 +1,3 @@
-#%%md
 #访问和修改像素值
 #加载彩色图像
 import numpy as np
@@ -64,4 +63,3 @@ RED =[0,0,255]
 constant = cv.copyMakeBorder(img,10,10,10,10,cv.BORDER_CONSTANT,value =RED)
 cv.imshow('123',constant)
 cv.waitKey(-1)
-#
